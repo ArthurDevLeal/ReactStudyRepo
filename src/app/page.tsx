@@ -19,10 +19,10 @@ function page() {
 			setShowResult(true);
 		}
 	}
-	function restart(){
-		setShowResult(false)
-		setCurrentQuestion(0)
-		setAnswers([])
+	function restart() {
+		setShowResult(false);
+		setCurrentQuestion(0);
+		setAnswers([]);
 	}
 	return (
 		<main className="bg-white  rounded-md shadow-md min-w-[500px] max-w-[600px]">
@@ -46,7 +46,7 @@ function page() {
 							return (
 								<>
 									<div
-										className={`bg-sky-200 border rounded-md p-2 ${
+										className={`border rounded-md p-2 ${
 											item === questions[index].answer ? "bg-green-200 border-green-400" : "bg-red-200 border-red-400"
 										}`}>
 										<li>{questions[index].question}</li> <p>{item === questions[index].answer ? "Correto" : "Incorreta"}</p>
@@ -56,13 +56,13 @@ function page() {
 						})}
 					</ul>
 					<div className="border-t border-t-gray-500/50 text-center p-4 ">
-						<button className="bg-blue-700 p-2 text-white rounded-md w-fit" onClick={restart}>Reinciar Quiz</button>
+						<button className="bg-blue-700 p-2 text-white rounded-md w-fit" onClick={restart}>
+							Reinciar Quiz
+						</button>
 					</div>
 				</>
 			)}
-			
 		</main>
-
 	);
 }
 
