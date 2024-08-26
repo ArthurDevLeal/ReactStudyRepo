@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-	background: black;
+
+body {
+	background: rgb(0, 119, 255);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
 @layer utilities {
 	.text-balance {
