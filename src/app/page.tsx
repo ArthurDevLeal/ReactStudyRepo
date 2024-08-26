@@ -1,39 +1,32 @@
-"use client"
-import Clock from "@/components/Clock";
-import Greeting from "@/components/Greeting";
-import Rating from "@/components/Rating";
-import PersonList from "@/components/PersonList";
-import TodoList from "@/components/TodoList";
+"use client";
+import ImgList from "@/components/ImgList";
+import { useState } from "react";
+import { ImgData } from "@/data/ImgData";
+import Modal from "@/components/Modal";
+
 function page() {
+	const [showModal, setShowModal] = useState(false);
+	const [imgOfModal, setImgOfModal] = useState("");
+
+	function openImgModal(id: number) {
+		const photo = ImgData.find((item) => item.id === id);
+		if (photo) {
+			setImgOfModal(photo.src);
+			setShowModal(true);
+		}
+	}
+	function closeModal() {
+		setShowModal(false);
+	}
 	return (
-		
-		
+		<main className="text-white container mx-auto flex flex-col my-4 items-center text-4xl font-bold">
+			<h1>Fotos intergalaticas</h1>
+			<div className="grid grid-cols-1 gap-6 max-w-5xl h-full md:grid-cols-2 lg:grid-cols-3 px-4">
+				<ImgList onClick={openImgModal} />
 
-
-		// <TodoList/>
-		// <main className="bg-gradient-to-tr from-sky-400 to-indigo-400 w-full h-screen flex flex-col items-center justify-center">
-		// 	<h1 className="text-9xl text-white">
-		// 		<Clock />
-		// 	</h1>
-		// 	<p className="text-4xl text-white">
-		// 		<Greeting />
-		// 	</p>
-		// </main>
-
-		// <table className="container mx-auto text-white ">
-		// 	<thead className="px-2 bg-blue-950">
-		// 		<tr className="text-left">
-		// 			<th className="w-1/3 p-4">Name</th>
-		// 			<th className="p-4">Status</th>
-		// 			<th className="p-4">Grade 1</th>
-		// 			<th className="p-4">Grade 2</th>
-		// 			<th className="p-4">Final Grade</th>
-		// 		</tr>
-		// 	</thead>
-		// 	<tbody className="text-black">
-		// 		<PersonList />
-		// 	</tbody>
-		// </table>
+				{showModal && <Modal image={imgOfModal} closeModal={closeModal} />}
+			</div>
+		</main>
 	);
 }
 
