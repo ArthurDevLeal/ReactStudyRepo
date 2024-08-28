@@ -1,69 +1,68 @@
 "use client";
-import Question from "@/components/Question";
+
 import { useState } from "react";
-import { questions } from "@/data/questions";
-function page() {
-	const [answers, setAnswers] = useState<number[]>([]);
-	const [currentQuestion, setCurrentQuestion] = useState(0);
-	const [showResult, setShowResult] = useState(false);
-
-	function handleAnswered(answer: number) {
-		setAnswers([...answers, answer]);
-		loadNextQuestion();
-	}
-
-	function loadNextQuestion() {
-		if (questions[currentQuestion + 1]) {
-			setCurrentQuestion(currentQuestion + 1);
-		} else {
-			setShowResult(true);
+import { TodoType } from "@/types/TodoType";
+function Page() {
+	const [value, setValue] = useState("");
+	const [todoList, setTodoList] = useState<TodoType[]>([]);
+	const [count, setCount] = useState(0);
+	function handleSubmit() {
+		if (value !== "") {
+			setTodoList([...todoList, { label: value, id: todoList.length, check: false }]);
+			setValue("");
 		}
 	}
-	function restart() {
-		setShowResult(false);
-		setCurrentQuestion(0);
-		setAnswers([]);
+	function removeTodo(id: number) {
+		let newList = todoList.filter((item) => {
+			return item.id !== id ? true : false;
+		});
+		setTodoList(newList);
+
+		const itemToRemove = todoList.find((item) => {
+			return item.id === id;
+		});
+		itemToRemove && itemToRemove.check ? setCount(count - 1) : setCount(count);
+	}
+	function updateCheck(id: number) {
+		let arr = [...todoList];
+		arr.forEach((item) => {
+			if (item.id === id) {
+				item.check = !item.check;
+				item.check ? setCount(count + 1) : setCount(count - 1);
+			}
+		});
+		setTodoList(arr);
+	}
+	function checkKey(e: string) {
+		if (e === "Enter") {
+			handleSubmit();
+		}
 	}
 	return (
-		<main className="bg-white  rounded-md shadow-md min-w-[500px] max-w-[600px]">
-			{showResult === false && (
-				<>
-					<h1 className="text-3xl p-4 border-b border-b-gray-500/50 font-bold">Quiz de Javascript</h1>
-
-					<Question question={questions[currentQuestion]} index={currentQuestion} onAnswer={handleAnswered} />
-					<div className="border-t border-t-gray-500/50 text-center p-4">
-						<p>
-							{currentQuestion + 1} de {questions.length} perguntas
-						</p>
-					</div>
-				</>
-			)}
-			{showResult && (
-				<>
-					<h1 className="text-3xl p-4 border-b border-b-gray-500/50 font-bold">Quiz de Javascript</h1>
-					<ul className="list-none p-4 flex flex-col gap-2">
-						{answers.map((item, index) => {
-							return (
-								<>
-									<div
-										className={`border rounded-md p-2 ${
-											item === questions[index].answer ? "bg-green-200 border-green-400" : "bg-red-200 border-red-400"
-										}`}>
-										<li>{questions[index].question}</li> <p>{item === questions[index].answer ? "Correto" : "Incorreta"}</p>
-									</div>
-								</>
-							);
-						})}
-					</ul>
-					<div className="border-t border-t-gray-500/50 text-center p-4 ">
-						<button className="bg-blue-700 p-2 text-white rounded-md w-fit" onClick={restart}>
-							Reinciar Quiz
-						</button>
-					</div>
-				</>
-			)}
+		<main className="text-center mt-8">
+			<h1 className="text-white text-4xl font-bold mb-2">Lista de tarefas</h1>
+			<input type="text" className="rounded-md p-2" value={value} onChange={(e) => setValue(e.target.value)} onKeyDown={(e) => checkKey(e.key)} />
+			<button className="bg-white rounded-md px-4 py-2 ml-2 hover:bg-white/80" onClick={handleSubmit}>
+				Enviar
+			</button>
+			<p className="text-white mt-4 text-xl">
+				{count} concluidas de {todoList.length} tarefas
+			</p>
+			<ul className="mt-2">
+				{todoList.length > 0 &&
+					todoList.map((item) => {
+						return (
+							<li key={item.id} className="bg-white px-4 py-2 min-w-48 max-w-96 mx-auto text-black truncate text-left rounded-md mb-2">
+								<input type="checkbox" className="mr-2" checked={item.check} onClick={() => updateCheck(item.id)} />
+								<button className="bg-red-400 rounded-md px-1 mr-2" onClick={() => removeTodo(item.id)}>
+									X
+								</button>
+								{item.label}
+							</li>
+						);
+					})}
+			</ul>
 		</main>
 	);
 }
-
-export default page;
+export default Page;
