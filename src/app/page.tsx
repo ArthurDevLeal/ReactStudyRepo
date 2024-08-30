@@ -1,20 +1,35 @@
 "use client";
-
+import { Item } from "@/types/Item";
 import { useState } from "react";
-import Video from "@/components/Video";
 function Page() {
-	const [playing, setPlaying] = useState<boolean>(false);
-	return (
-		<div className="text-white">
-			<div className="border border-white p-3 mb-4">
-				<p className="text-2xl font-bold mb-2">{playing ? "Rodando" : "Pausado"}</p>
-				<button onClick={() => setPlaying(!playing)} className="bg-white text-black p-2 rounded-md active:opacity-80">
-					Play/Pause
-				</button>
-			</div>
+	const [list, setList] = useState<Item[]>([]);
 
-			<Video src={"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"} isPlaying={playing} />
-		</div>
-	);
+	function addNewItem(text: string) {
+		setList([...list, { id: list.length, text, done: false }]);
+	}
+
+	function editItem(id: number, newText: string) {
+		setList(
+			list.map((item) => {
+				if (item.id === id) item.text = newText;
+				return item;
+			}),
+		);
+	}
+	
+	function toggleDoneItem(id: number) {
+		setList(
+			list.map((item) => {
+				if (item.id === id) item.done = !item.done;
+				return item;
+			}),
+		);
+	}
+
+	function removeItem(id: number) {
+		setList(list.filter((item) => item.id !== id));
+	}
+
+	return <div className=""></div>;
 }
 export default Page;
