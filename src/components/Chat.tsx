@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import Input from "./Input";
 import MessageList from "./MessageList";
 import { ChatContext } from "@/Contexts/ChatContext";
+import InputUserForChat from "./InputUserForChat";
+import InputBotForChat from "./InputBotForChat";
 
 export default function Chat() {
 	const [name, setName] = useState<string>("");
@@ -30,22 +32,8 @@ export default function Chat() {
 					<div className="min-h-full w-full border border-gray-500 rounded-t-md">
 						<MessageList chatHistory={ctx.chatHistory} name={name} />
 					</div>
-					<input
-						type="text"
-						placeholder={`${name}, digite uma mensagem (e aperte enter)`}
-						className="p-2 bg-black border border-gray-500 text-white"
-						onKeyDown={(e) => addItem(e, true)}
-						value={valueUser}
-						onChange={(e) => setValueUser(e.target.value)}
-					/>
-					<input
-						type="text"
-						placeholder={`bot, digite uma mensagem (e aperte enter)`}
-						className="p-2 bg-black border border-gray-500 rounded-b-md text-white"
-						onKeyDown={(e) => addItem(e, false)}
-						value={valueBot}
-						onChange={(e) => setValueBot(e.target.value)}
-					/>
+					<InputUserForChat name={name} value={valueUser} setValue={setValueUser} func={addItem} />
+					<InputBotForChat value={valueBot} setValue={setValueBot} func={addItem} />
 				</div>
 			)}
 		</div>
