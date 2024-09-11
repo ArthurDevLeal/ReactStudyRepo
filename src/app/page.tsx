@@ -1,8 +1,5 @@
 "use client";
 
-import Chat from "@/components/Chat";
-import Input from "@/components/Input";
-import ChatProvider from "@/Contexts/ChatContext";
 
 function page() {
 	return (
