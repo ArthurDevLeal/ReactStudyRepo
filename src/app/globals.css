@@ -4,16 +4,12 @@
 
 body{
 	background: black;
+	color: white;
 	height: 100vh;
 }
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
 
-.scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
+
+
 @layer utilities {
 	.text-balance {
 		text-wrap: balance;
