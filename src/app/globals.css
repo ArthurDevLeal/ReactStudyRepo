@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body{
-	background: black;
+	background: white;
+	min-height: 100vh;
 }
 @layer utilities {
 	.text-balance {
